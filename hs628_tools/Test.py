@@ -21,6 +21,7 @@ class data_split:
 
     #set path to read the csv file in the directory
     def test_train():
+
         pathName = os.getcwd()
 
         dataset = []
@@ -31,24 +32,32 @@ class data_split:
             if fileNames.endswith(".csv"):
                 dataset.append(fileNames)
 
-        for point in dataset:
-            file = open(os.path.join(pathName, point), "rU")
+        for k in dataset:
+            file = open(os.path.join(pathName, k), "rU")
             data = csv.reader(file, delimiter=',')
-            #data_len =sum(1 for line in data)
+            # data_len =sum(1 for line in data)
+            # print data_len
 
+
+        for column in data:
 
             for column in data:
+
                 for row in column:
+
                     if row == "?":
                         pass
-                    elif row == "NA":
+                    if row == "NA":
                         pass
-                    elif row == "NAN":
+                    if row == "NAN":
                         pass
                     else:
-                        print row
+                        print (row)
+            return row
 
-
-
+        #********
 
     test_train()
+
+    # row_len = sum(1 for line in test_train())
+    # print row_len
