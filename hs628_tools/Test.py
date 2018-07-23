@@ -38,26 +38,49 @@ class data_split:
             # data_len =sum(1 for line in data)
             # print data_len
 
-
+        clean_data = []
         for column in data:
 
-            for column in data:
+            for row in column:
 
-                for row in column:
+                if row == "?":
+                    pass
+                if row == "NA":
+                    pass
+                if row == "NAN":
+                    pass
 
-                    if row == "?":
-                        pass
-                    if row == "NA":
-                        pass
-                    if row == "NAN":
-                        pass
-                    else:
-                        print (row)
-            return row
+                else:
+                    clean_data.append(row)
+
+
+        return clean_data
 
         #********
 
     test_train()
 
-    # row_len = sum(1 for line in test_train())
-    # print row_len
+    row_len = sum(1 for line in test_train())
+    print row_len
+
+
+    def split_ratio(row_len):
+        """
+
+        :return: data split ratio based on the number of data points
+        """
+        if row_len <= 500:
+            train = 80
+            test = 20
+        elif row_len > 500 and row_len <= 10000:
+            train = 75
+            test = 25
+        else:
+            train = 70
+            test = 30
+        print 'train:',train, 'test:',test
+
+    split_ratio(11111111111)
+
+
+
