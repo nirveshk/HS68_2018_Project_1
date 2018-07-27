@@ -29,7 +29,7 @@ class data_split:
 
         """
 
-        data = np.genfromtxt('heart.csv', delimiter=',', skip_header=1)
+        data = np.genfromtxt(csv_datafile, delimiter=',', skip_header=1)
         np.isnan(data).sum() #counts the number of "NANs" in dat
         #print data.shape
 
@@ -38,6 +38,7 @@ class data_split:
         #set calculation standard for specific datalengths, this is based on the general rule of thumb
         #ratio increases as the length of the data increases, so to ensure we have  enough data to train and test
         #for the smaller datasets
+        
         if len(data) <= 500:
             train = 60
             test = 40
