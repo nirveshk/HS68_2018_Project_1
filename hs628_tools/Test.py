@@ -1,5 +1,6 @@
 
 import numpy as np
+from sklearn.model_selection import train_test_split
 
 
 
@@ -10,11 +11,11 @@ class data_split:
     """
     Create class data_split to predict a perfect train and test data split ratio.
 
-    define methods to accomplish this task.
+    defines method to accomplish this task.
 
-    return a split ratio.
+    returns a split ratio.
 
-    Identify Missing values as Nan, return train and test data with uniform division
+    Identifies Missing values as Nan for any missing value, return train and test dataframe with uniform division
     of NAN between train and test data per the data split ratio.
 
     """
@@ -29,11 +30,14 @@ class data_split:
         """
 
         data = np.genfromtxt('heart.csv', delimiter=',', skip_header=1)
-        #print np.isnan(data).sum() #counts the number of "NANs" in dat
-        print data.shape
+        np.isnan(data).sum() #counts the number of "NANs" in dat
+        #print data.shape
 
 
-        #set calculation standard for specific datalengths
+
+        #set calculation standard for specific datalengths, this is based on the general rule of thumb
+        #ratio increases as the length of the data increases, so to ensure we have  enough data to train and test
+        #for the smaller datasets
         if len(data) <= 500:
             train = 60
             test = 40
@@ -51,9 +55,12 @@ class data_split:
 
         # drops all NAN values from data
         non_nandata = data[~np.isnan(data).any(axis=1)]
+
         #print non_nandata.shape
 
-        print non_nandata.shape
+        #print non_nandata.shape
+
+
 
         ### nan dataframe
         nan_data = data[np.isnan(data).any(axis = 1)]
@@ -62,34 +69,55 @@ class data_split:
         #####split  Nan data and non_nandata using the split ratio
         #####determined above
 
-        # train_nan_data = nan_data[:train, :]
-        # test_nan_data = nan_data[train:, :]
-        # print train_nan_data.shape
-        # print test_nan_data
+
+
+
+        int_train = (train/float(100))
+        #print int_train
+
+        ##split Nan data to train and test sets
+
+        train_nan_data = nan_data[:int(train/float(100)*len(nan_data)), :]
+        test_nan_data = nan_data[int(train/float(100)*len(nan_data)):, :]
+        #print train_nan_data.shape
+        #print test_nan_data.shape
+
 
 
         ##split non Nan data to train and test sets
-        train_non_nan = non_nandata[:train, :]
-        test_non_nan =  non_nandata[train:, :]
-        #print train_non_nan
-        ##split Nan data to train and test sets
-
-        train_nan = train/100 *(len(nan_data))
-        test_nan = test/100 *(len(nan_data))
-        #print train_nan
-
-        ####Add train_non_nan and train_nan
-
-        #np.concatenate(train_non_nan, train_nan)
-
-        #train_non_nan.append(train_nan)
-
-        #### Add test_non_nan and test_nan
+        train_non_nan = non_nandata[:int(train/float(100)*len(non_nandata)), :]
+        test_non_nan =  non_nandata[int(train/float(100)*len(non_nandata)):, :]
+        #print train_non_nan.shape
+        #print test_non_nan.shape
 
 
 
-        #final_train_dataframe
-        #final_test-dataframe
+
+
+
+
+        ####Add train_non_nan and train_nan_data
+
+        final_train = np.concatenate([train_non_nan, train_nan_data])
+        #print final_train.shape
+
+
+
+        #### Add test_non_nan and test_nan_data
+
+        final_test = np.concatenate([test_non_nan, test_nan_data])
+        #print final_test.shape
+
+
+
+
+        ##This module prints out the train and test data as per the preset ratio
+        ## determined based on the length of the data and includes missing data
+        ## uniformly between train and test data
+        print "This is the final train data:"\
+                ,final_train
+        print "This is the final test data:" \
+            , final_test
 
     test_train()
 
