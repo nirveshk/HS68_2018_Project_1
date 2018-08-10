@@ -2,12 +2,7 @@
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-
-
-
-
-
-class data_split:
+class Data_Split:
     """
     Create class data_split to predict a perfect train and test data split ratio.
 
@@ -19,18 +14,20 @@ class data_split:
     of NAN between train and test data per the data split ratio.
 
     """
-    def __init__(self, data):
-        self.data = data
 
+    def __init__(self, data=None):  # default values input for mean and std
+        self.data = data
 
     def test_train():
         """
         Reads in csv file using np.genfromtxt, counts number of NANs in the dataset
+        Pass in .csv file
 
         """
 
-        data = np.genfromtxt(csv_datafile, delimiter=',', skip_header=1)
+        datafile = np.genfromtxt(data == data, delimiter=',', skip_header=1)
         np.isnan(data).sum() #counts the number of "NANs" in dat
+
         #print data.shape
 
 
@@ -38,8 +35,9 @@ class data_split:
         #set calculation standard for specific datalengths, this is based on the general rule of thumb
         #ratio increases as the length of the data increases, so to ensure we have  enough data to train and test
         #for the smaller datasets
-        
-        if len(data) <= 500:
+
+        row_len = len(datafile)
+        if len(data ) <= 500:
             train = 60
             test = 40
         elif len(data) > 500 and row_len <= 10000:
@@ -68,9 +66,8 @@ class data_split:
         #print nan_data
 
         #####split  Nan data and non_nandata using the split ratio
+
         #####determined above
-
-
 
 
         int_train = (train/float(100))
@@ -80,41 +77,35 @@ class data_split:
 
         train_nan_data = nan_data[:int(train/float(100)*len(nan_data)), :]
         test_nan_data = nan_data[int(train/float(100)*len(nan_data)):, :]
-        #print train_nan_data.shape
-        #print test_nan_data.shape
 
+        #print train_nan_data.shape
+
+        #print test_nan_data.shape
 
 
         ##split non Nan data to train and test sets
         train_non_nan = non_nandata[:int(train/float(100)*len(non_nandata)), :]
         test_non_nan =  non_nandata[int(train/float(100)*len(non_nandata)):, :]
+
         #print train_non_nan.shape
+
         #print test_non_nan.shape
-
-
-
-
-
-
 
         ####Add train_non_nan and train_nan_data
 
         final_train = np.concatenate([train_non_nan, train_nan_data])
         #print final_train.shape
 
-
-
         #### Add test_non_nan and test_nan_data
 
         final_test = np.concatenate([test_non_nan, test_nan_data])
+
         #print final_test.shape
-
-
-
 
         ##This module prints out the train and test data as per the preset ratio
         ## determined based on the length of the data and includes missing data
         ## uniformly between train and test data
+
         print "This is the final train data:"\
                 ,final_train
         print "This is the final test data:" \
